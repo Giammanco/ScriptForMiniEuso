@@ -4,9 +4,9 @@
 
 SL_T=0.01 #sleep time after every command sent by telnet
 
-USB0=/home/corrado/nursery
-USB1=/home/corrado/MiniEuso/nursery
-INTERNAL=/home
+USB0=/media/usb0
+USB1=/media/usb1
+INTERNAL=/home/software
 DAC7=dac7.txt
 DAC10=dac10.txt
 IPZYNC=192.168.7.10
