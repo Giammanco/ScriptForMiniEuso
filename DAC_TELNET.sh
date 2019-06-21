@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 
 
@@ -6,7 +6,7 @@ SL_T=0.01 #sleep time after every command sent by telnet
 
 USB0=/media/usb0
 USB1=/media/usb1
-INTERNAL=/home/software
+INTERNAL=/home/minieusouser
 DAC7=dac7.txt
 DAC10=dac10.txt
 IPZYNC=192.168.7.10
@@ -45,6 +45,7 @@ pick_file(){
 
 }
 
+send_t(){
 pick_file $DAC7
 DAC7=$final
 
@@ -132,4 +133,10 @@ echo ${dac10[2303]}
         done
     done
 )| telnet
+
+}
+
+send_t>/media/usb0/dac_telnet.log
+
+echo "check dac_telnet.log"
 
