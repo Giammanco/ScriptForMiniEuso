@@ -1,41 +1,43 @@
 ##!/bin/bash
 #
-T=5440          #set time for whole program duration in sec
-t=900          #set time for single run duration in sec
-S=1            #set time between one check and another (smaller than t) in sec
+T=864000                 #set time for whole program duration in sec
+t=864000                 #set time for single run duration in sec
+S=1                      #set time between one check and another (smaller than t) in sec
 cmd='./SimulaEuso.sh'    #string command to activate mecontrol
-p_name='SimulaEuso.sh' #same than command but without option
+p_name='mecontrol'       #same than command but without option
+
 #
 #
 #######################################################
-
 
 
     now=$(date +%s)
 
     time_to_stop=$((now+T))
 
+    rm /home/minieusouser/DATA/* -f # purge data files from Zynq
+
     ($cmd &) #change this with your command
     echo 'mecontrol is starting @ '$(date -d @$now)
 
-    (./ZipDemon.sh &)
-
+#    (./ZipDemon.sh &) #constinuous zipping
+#     (./ZipFirst.sh &) #zip only the fist n packet for pen
 
     inner_time_stop=$((now+t))
 
     while((now<time_to_stop)); do
 
         sleep $S
-
+	
         flag=$(pgrep -x $p_name)
         #echo $flag
-
+	
         if ((flag==0)); then
-
-            echo 'mecontrol is not running'
-            echo 'then: Starting mecontrol'
-            ($cmd &)
-            inner_time_stop=$((now+t))
+	   
+           echo 'mecontrol is not running'
+           echo 'then: Starting mecontrol'
+           ($cmd &)
+           inner_time_stop=$((now+t))
 
         elif ((now> inner_time_stop)); then
             echo 'mecontrol is still working'
@@ -47,13 +49,3 @@ p_name='SimulaEuso.sh' #same than command but without option
     done
 
     echo 'cicle ends @ '$(date -d @$now)
-
-
-
-
-
-
-
-
-
-
